@@ -37,9 +37,10 @@ namespace CharactersApi_Logic.Repositiories
       return _mapper.ModelToViewModel(weapon);
     }
 
-    public Task<List<ViewWeapon>> Read()
+    public async Task<List<ViewWeapon>> Read()
     {
-      throw new NotImplementedException();
+      var weapons = await _dbContext.Weapons.ToListAsync();
+      return weapons.ConvertAll(_mapper.ModelToViewModel);
     }
 
     public Task<ViewWeapon> Update(ViewWeapon obj)

@@ -29,6 +29,12 @@ namespace CharactersApi.Controllers
     //    return new string[] { "value1", "value2" };
     //}
 
+    [HttpGet]
+    public async Task<ActionResult<List<Weapon>>> GetAllWeapons()
+    {
+      var weapons = await _repo.Read();
+      return Ok(weapons);
+    }
 
     //GET api/<WeaponController>/5
     [HttpGet("/Weapon/{id}")]

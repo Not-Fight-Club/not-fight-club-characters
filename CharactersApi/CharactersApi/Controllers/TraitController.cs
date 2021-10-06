@@ -29,7 +29,7 @@ namespace CharactersApi.Controllers
 
     // GET: api/<TraitController>
     [HttpGet]
-    public async Task<IEnumerable<ViewTrait>> Get()
+    public async Task<IEnumerable<ViewTrait>> GetAllTraits()
     {
       return await _repo.Read();
     }
