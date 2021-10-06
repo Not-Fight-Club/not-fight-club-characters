@@ -42,9 +42,10 @@ namespace CharactersApi_Logic.Repositiories
       return _mapper.ModelToViewModel(selectedCharacter);
     }
 
-    public Task<List<ViewCharacter>> Read()
+    public async Task<List<ViewCharacter>> Read()
     {
-      throw new NotImplementedException();
+      var characters = await _dbContext.Characters.ToListAsync();
+      return characters.ConvertAll(_mapper.ModelToViewModel);
     }
 
     public Task<ViewCharacter> Update(ViewCharacter obj)

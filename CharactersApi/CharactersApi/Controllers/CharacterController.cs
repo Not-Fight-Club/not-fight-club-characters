@@ -33,6 +33,14 @@ namespace CharactersApi.Controllers
     //    return new string[] { "value1", "value2" };
     //}
 
+    // GET api/<CharacterController>
+    [HttpGet]
+    public async Task<ActionResult<List<ViewCharacter>>> Get()
+    {
+      var chars = await _repo.Read();
+      return Ok(chars);
+    }
+
     // GET api/<CharacterController>/5
     [HttpGet("{id}")]
     public async Task<ActionResult<ViewCharacter>> Get(int id)
