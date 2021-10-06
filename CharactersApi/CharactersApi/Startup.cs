@@ -57,18 +57,12 @@ namespace CharactersApi
       services.AddDbContext<P3_NotFightClub_CharactersContext>();
 
 
-      //services.AddSingleton<IRepository<ViewUserInfo, string>, UserRepository>();
-      //services.AddSingleton<IMapper<UserInfo, ViewUserInfo>, UserInfoMapper>();
-      services.AddSingleton<IRepository<ViewCharacter, int>, CharacterRepository>();
-      services.AddSingleton<IMapper<Character, ViewCharacter>, CharacterMapper>();
-      services.AddSingleton<IMapper<Trait, ViewTrait>, TraitMapper>();
-      services.AddSingleton<IRepository<ViewTrait, int>, TraitRepository>();
-      services.AddSingleton<IRepository<ViewWeapon, int>, WeaponRepository>();
-      services.AddSingleton<IMapper<Weapon, ViewWeapon>, WeaponMapper>();
-      //services.AddSingleton<IRepository<ViewFight, int>, FightRepository>();
-      //services.AddSingleton<IMapper<Fighter, ViewFighter>, FighterMapper>();
-      //services.AddSingleton<IRepository<ViewFighter, int>, FighterRepository>();
-      //services.AddSingleton<IMapper<Fight, ViewFight>, FightMapper>();
+      services.AddScoped<IRepository<ViewCharacter, int>, CharacterRepository>();
+      services.AddScoped<IMapper<Character, ViewCharacter>, CharacterMapper>();
+      services.AddScoped<IMapper<Trait, ViewTrait>, TraitMapper>();
+      services.AddScoped<IRepository<ViewTrait, int>, TraitRepository>();
+      services.AddScoped<IRepository<ViewWeapon, int>, WeaponRepository>();
+      services.AddScoped<IMapper<Weapon, ViewWeapon>, WeaponMapper>();
 
 
       services.AddControllers();
