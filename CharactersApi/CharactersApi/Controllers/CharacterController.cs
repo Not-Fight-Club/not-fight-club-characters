@@ -34,6 +34,13 @@ namespace CharactersApi.Controllers
     //}
 
     // GET api/<CharacterController>
+    
+    [HttpGet("testing")]
+    public string Get1()
+    {
+      return "success";
+    }
+    
     [HttpGet]
     public async Task<ActionResult<List<ViewCharacter>>> Get()
     {
