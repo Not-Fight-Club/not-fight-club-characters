@@ -45,6 +45,7 @@ namespace CharactersApi.Controllers
     [HttpGet("{id}")]
     public async Task<ActionResult<ViewCharacter>> Get(int id)
     {
+      _logger.LogInformation($"Got request for character by id {id}");
       var selectedCharacter = await _repo.Read(id);
       return Ok(selectedCharacter);
     }
