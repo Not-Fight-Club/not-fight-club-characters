@@ -85,7 +85,6 @@ namespace CharactersApi_Test.RepositoryTests
           (t3) => Assert.Equal(traitsToInsert[2].Description, t3.Description)
         );
       }
-      //Assert.False(true);
     }
 
     [Fact]
@@ -96,10 +95,32 @@ namespace CharactersApi_Test.RepositoryTests
         await mockDbContext.Database.EnsureDeletedAsync();
         await mockDbContext.Database.EnsureCreatedAsync();
 
+        Trait[] traitsToInsert = new Trait[]
+        {
+          new Trait()
+          {
+            Description = "test trait 1"
+          },
+          new Trait()
+          {
+            Description = "test trait 2"
+          },
+          new Trait()
+          {
+            Description = "test trait 3"
+          }
+        };
+
+        await mockDbContext.Traits.AddRangeAsync(traitsToInsert);
+        await mockDbContext.SaveChangesAsync();
+
         var mapper = new TraitMapper();
         var traitRepo = new TraitRepository(mapper, mockDbContext);
+
+        var trait1 = await traitRepo.Read(1);
+        Assert.Equal(traitsToInsert[0].Description, trait1.Description);
       }
-      Assert.False(true);
+      //Assert.False(true);
     }
   }
 }
