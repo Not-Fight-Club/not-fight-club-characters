@@ -74,9 +74,18 @@ namespace CharactersApi_Test.RepositoryTests
         };
 
         await mockDbContext.Traits.AddRangeAsync(traitsToInsert);
+        await mockDbContext.SaveChangesAsync();
 
+        var traits = await traitRepo.Read();
+
+        Assert.Equal(3, traits.Count());
+        Assert.Collection(traits,
+          (t1) => Assert.Equal(traitsToInsert[0].Description, t1.Description),
+          (t2) => Assert.Equal(traitsToInsert[1].Description, t2.Description),
+          (t3) => Assert.Equal(traitsToInsert[2].Description, t3.Description)
+        );
       }
-      Assert.False(true);
+      //Assert.False(true);
     }
 
     [Fact]
