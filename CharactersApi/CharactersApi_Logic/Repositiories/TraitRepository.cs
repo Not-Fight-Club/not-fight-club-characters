@@ -42,7 +42,8 @@ namespace CharactersApi_Logic.Repositiories
     public async Task<ViewTrait> Read(int id)
     {
 
-      Trait trait = await _dbContext.Traits.FromSqlInterpolated($"select * from Trait where TraitId = {id}").FirstOrDefaultAsync();
+      //Trait trait = await _dbContext.Traits.FromSqlInterpolated($"select * from Trait where TraitId = {id}").FirstOrDefaultAsync();
+      Trait trait = await _dbContext.Traits.Where(t => t.TraitId == id).FirstOrDefaultAsync();
 
       return _mapper.ModelToViewModel(trait);
     }

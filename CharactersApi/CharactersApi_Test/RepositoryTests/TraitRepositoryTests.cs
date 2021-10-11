@@ -61,15 +61,18 @@ namespace CharactersApi_Test.RepositoryTests
         {
           new Trait()
           {
-            Description = "test trait 1"
+            Description = "test trait 1",
+            TraitId = 1
           },
           new Trait()
           {
-            Description = "test trait 2"
+            Description = "test trait 2",
+            TraitId = 2
           },
           new Trait()
           {
-            Description = "test trait 3"
+            Description = "test trait 3",
+            TraitId = 3
           }
         };
 
@@ -99,15 +102,18 @@ namespace CharactersApi_Test.RepositoryTests
         {
           new Trait()
           {
-            Description = "test trait 1"
+            Description = "test trait 1",
+            TraitId = 1
           },
           new Trait()
           {
-            Description = "test trait 2"
+            Description = "test trait 2",
+            TraitId = 2
           },
           new Trait()
           {
-            Description = "test trait 3"
+            Description = "test trait 3",
+            TraitId = 3
           }
         };
 
@@ -117,8 +123,13 @@ namespace CharactersApi_Test.RepositoryTests
         var mapper = new TraitMapper();
         var traitRepo = new TraitRepository(mapper, mockDbContext);
 
-        var trait1 = await traitRepo.Read(1);
-        Assert.Equal(traitsToInsert[0].Description, trait1.Description);
+        // get second trait
+        var trait1 = await traitRepo.Read(2);
+        Assert.Equal(traitsToInsert[1].Description, trait1.Description);
+
+        // get nonexistent trait
+        var trait2 = await traitRepo.Read(5);
+        Assert.Null(trait2);
       }
       //Assert.False(true);
     }
