@@ -12,6 +12,7 @@ using Xunit;
 
 namespace CharactersApi_Test.RepositoryTests
 {
+  [Collection("Repository Tests")]
   public class WeaponRepositoryTests
   {
 

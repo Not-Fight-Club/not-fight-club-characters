@@ -25,9 +25,9 @@ namespace CharactersApi_Logic.Repositiories
       Character character = _mapper.ViewModelToModel(viewCharacter);
       //add to the db
       //_dbContext.Database.ExecuteSqlInterpolated($"Insert into Character(name, baseform, traitId, weaponId, userId) values({character.Name},{character.Baseform},{character.TraitId},{character.WeaponId}, {character.UserId})");
-      _dbContext.Add(character);
+      _dbContext.Characters.Add(character);
       //save changes
-      _dbContext.SaveChanges();
+      await _dbContext.SaveChangesAsync();
       //read user back from the db
       Character createdCharacter = await _dbContext.Characters.FromSqlInterpolated($"select * from Character where UserId = {character.UserId} and name = {character.Name} and baseform = {character.Baseform}").FirstOrDefaultAsync();
 
@@ -37,7 +37,8 @@ namespace CharactersApi_Logic.Repositiories
     public async Task<ViewCharacter> Read(int id)
     {
       //this will not work because userId is not an integer
-      Character selectedCharacter = await _dbContext.Characters.FromSqlInterpolated($"select * from Character where CharacterId = {id}").FirstOrDefaultAsync();
+      //Character selectedCharacter = await _dbContext.Characters.FromSqlInterpolated($"select * from Character where CharacterId = {id}").FirstOrDefaultAsync();
+      Character selectedCharacter = await _dbContext.Characters.Where(c => c.CharacterId == id).FirstOrDefaultAsync();
 
       return _mapper.ModelToViewModel(selectedCharacter);
     }
