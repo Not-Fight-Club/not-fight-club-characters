@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: characterapi 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: characterapi
+  template:
+    metadata:
+      labels:
+        app: characterapi 
+    spec:
+      containers:
+        - name: characterapi 
+          image: p3fightclub.azurecr.io/characterapi
+          ports:
+          - containerPort: 5005
