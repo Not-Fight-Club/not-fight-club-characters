@@ -1,11 +1,15 @@
 --DDL for P2Group2SocialGame
 --Still need to add the on delete cascades and set nulls
 
-CREATE DATABASE P3_NotFightClub_Characters
-Go
+--CREATE DATABASE P3_NotFightClub_Characters
+--Go
 
 USE P3_NotFightClub_Characters
 Go
+
+DROP TABLE IF EXISTS [Character];
+DROP TABLE IF EXISTS Trait;
+DROP TABLE IF EXISTS Weapon;
 
 CREATE TABLE Trait(
 TraitId int not null identity(1,1) primary key,
