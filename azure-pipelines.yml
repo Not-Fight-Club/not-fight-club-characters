@@ -2,9 +2,10 @@
 # Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger: none
-pr:
+trigger:
 - dev_ops
+# pr:
+# - dev_ops
 
 resources:
 - repo: self
@@ -42,10 +43,10 @@ stages:
         tags: |
           $(tag)
     - script: |
-              docker build -f $(dockerfilePath) --target build -t charactersapi_test:$(Build.BuildId) . 
-              docker create -ti --name testcontainer charactersapi_test:$(Build.BuildId) 
-              docker cp testcontainer:/src/CharactersApi/CharactersApi_Test/TestResults/ $(Build.ArtifactStagingDirectory)/testresults 
-              docker rm -fv testcontainer
+        docker build -f $(dockerfilePath) --target build -t charactersapi_test:$(Build.BuildId) . 
+        docker create -ti --name testcontainer charactersapi_test:$(Build.BuildId) 
+        docker cp testcontainer:/src/CharactersApi/CharactersApi_Test/TestResults/ $(Build.ArtifactStagingDirectory)/testresults 
+        docker rm -fv testcontainer
     - task: PublishTestResults@2
       displayName: Publish Test Results *.trx
       inputs:
