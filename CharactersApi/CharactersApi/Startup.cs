@@ -66,7 +66,7 @@ namespace CharactersApi
       services.AddScoped<IRepository<ViewWeapon, int>, WeaponRepository>();
       services.AddScoped<IMapper<Weapon, ViewWeapon>, WeaponMapper>();
 
-
+            services.AddApplicationInsightsTelemetry();
       services.AddControllers();
       /*
       services.AddControllers().AddNewtonsoftJson(options =>
