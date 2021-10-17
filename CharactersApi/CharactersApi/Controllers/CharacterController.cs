@@ -53,6 +53,7 @@ namespace CharactersApi.Controllers
     public async Task<ActionResult<ViewCharacter>> Get(int id)
     {
       _logger.LogInformation($"Got request for character by id {id}");
+      _logger.LogError("Test Error");
       var selectedCharacter = await _repo.Read(id);
       return Ok(selectedCharacter);
     }
