@@ -43,23 +43,17 @@ namespace CharactersApi
           .AllowAnyMethod();
         });
       });
-      //services.AddDbContext<ConfigurationContext>(options =>
-      //{
-      //    options.UseSqlServer(Configuration.GetConnectionString("local"));
-      //});
-      //services.AddDbContext<P2_NotFightClubContext>(options =>
-      //{
-      //    //if db options is already configured, done do anything..
-      //    // otherwise use the Connection string I have in secrets.json
-      //    if (!options.IsConfigured)
-      //    {
-      //        options.UseSqlServer(Configuration.GetConnectionString("local"));
-      //    }
-      //});
-      services.AddDbContext<P3_NotFightClub_CharactersContext>();
+     
+      services.AddDbContext<P3_NotFightClub_CharactersContext>(options =>
+      {
+          if (!options.IsConfigured)
+          {
+              options.UseSqlServer(Configuration.GetConnectionString("Default"));
+          }
+      });
 
 
-      services.AddScoped<IRepository<ViewCharacter, int>, CharacterRepository>();
+            services.AddScoped<IRepository<ViewCharacter, int>, CharacterRepository>();
       services.AddScoped<IMapper<Character, ViewCharacter>, CharacterMapper>();
       services.AddScoped<IMapper<Trait, ViewTrait>, TraitMapper>();
       services.AddScoped<IRepository<ViewTrait, int>, TraitRepository>();
