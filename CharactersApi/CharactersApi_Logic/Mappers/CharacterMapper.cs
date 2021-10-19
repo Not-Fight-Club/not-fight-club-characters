@@ -11,6 +11,9 @@ namespace CharactersApi_Logic.Mappers
 {
   public class CharacterMapper : IMapper<Character, ViewCharacter>
   {
+    private TraitMapper TraitMap = new TraitMapper();
+    private WeaponMapper WeaponMap = new WeaponMapper();
+
     public ViewCharacter ModelToViewModel(Character character)
     {
       ViewCharacter viewCharacter = new ViewCharacter();
@@ -24,6 +27,9 @@ namespace CharactersApi_Logic.Mappers
       viewCharacter.UserId = character.UserId;
       viewCharacter.Wins = character.Wins;
       viewCharacter.CharacterId = character.CharacterId;
+
+      viewCharacter.Trait = character.Trait?.Description;
+      viewCharacter.Weapon = character.Weapon?.Description;
 
 
       return viewCharacter;
