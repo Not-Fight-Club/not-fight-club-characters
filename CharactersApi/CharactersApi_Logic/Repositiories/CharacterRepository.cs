@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CharactersApi_Logic.Repositiories
 {
-  public class CharacterRepository : IRepository<ViewCharacter, int>
+  public class CharacterRepository : ICharacterRepository
   {
     private readonly P3_NotFightClub_CharactersContext _dbContext;
     private readonly IMapper<Character, ViewCharacter> _mapper;
@@ -48,9 +48,25 @@ namespace CharactersApi_Logic.Repositiories
       return characters.ConvertAll(_mapper.ModelToViewModel);
     }
 
-    public Task<ViewCharacter> Update(ViewCharacter obj)
+    public async Task<List<ViewCharacter>> ReadAll(Guid userId)
     {
-      throw new NotImplementedException();
+        List<Character> returnedCharacters = await _dbContext.Characters.FromSqlInterpolated($"select * from Character where userId = {userId}").ToListAsync();
+        return returnedCharacters.ConvertAll(_mapper.ModelToViewModel);
+    }
+
+    public async Task<ViewCharacter> Update(ViewCharacter obj)
+    {
+            var returned = await _dbContext.Characters.SingleOrDefaultAsync(c => c.CharacterId == obj.CharacterId);
+            returned.Baseform = obj.Baseform;
+            returned.Level = obj.Level;
+            returned.Losses = obj.Losses;
+            returned.Name = obj.Name;
+            returned.Ties = obj.Ties;
+            returned.TraitId = obj.TraitId;
+            returned.WeaponId = obj.WeaponId;
+
+            await _dbContext.SaveChangesAsync();
+            return _mapper.ModelToViewModel(returned);
     }
   }
 }
