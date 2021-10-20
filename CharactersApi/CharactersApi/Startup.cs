@@ -37,7 +37,8 @@ namespace CharactersApi
         options.AddPolicy(name: "NotFightClubLocal", builder =>
         {
           builder.WithOrigins(
-            "http://localhost:4200"
+            "http://localhost:4200",
+            "http://notfightclub.eastus.cloudapp.azure.com"
           )
           .AllowAnyHeader()
           .AllowAnyMethod();
