@@ -16,10 +16,11 @@ namespace CharactersApi.Controllers
   [ApiController]
   public class CharacterController : ControllerBase
   {
-    private readonly IRepository<ViewCharacter, int> _repo;
+        
+    private readonly ICharacterRepository _repo;
     private readonly ILogger<CharacterController> _logger;
 
-    public CharacterController(IRepository<ViewCharacter, int> repo, ILogger<CharacterController> logger)
+    public CharacterController(ICharacterRepository repo, ILogger<CharacterController> logger)
     {
       _repo = repo;
       _logger = logger;
@@ -57,30 +58,41 @@ namespace CharactersApi.Controllers
       var selectedCharacter = await _repo.Read(id);
       return Ok(selectedCharacter);
     }
+    
+    //Get just a single users list of character
+    [HttpGet]
+    [Route("[action]/{userId}")]
+        public async Task<ActionResult<List<ViewCharacter>>> UserCharacters(Guid userId)
+    {
+        _logger.LogInformation($"Got request for character by user id {userId}");
+        var characters = await _repo.ReadAll(userId);
+        return Ok(characters);
+    }
 
     // POST api/<CharacterController>
     [HttpPost]
     public async Task<ActionResult<ViewCharacter>> Post([FromBody] ViewCharacter viewCharacter)
     {
       if (!ModelState.IsValid) return BadRequest("Invalid data.");
-      //call to repository to add user
-      //return the result
-      //Console.WriteLine(viewUser);
       var createdCharacter = await _repo.Add(viewCharacter);
       _logger.LogInformation($"{createdCharacter.Name} created.");
 
       return Ok(createdCharacter);
     }
-    //// PUT api/<CharacterController>/5
-    //[HttpPut("{id}")]
-    //public void Put(int id, [FromBody] string value)
-    //{
-    //}
+        //// PUT api/<CharacterController>/5
+        [HttpPut]
+        public async Task<ActionResult<ViewCharacter>> Put([FromBody] ViewCharacter character)
+        {
+            if (!ModelState.IsValid) return BadRequest("Invalid data.");
+            _logger.LogInformation($"{character.CharacterId} was updated in store");
+            var updatedCharacter = await _repo.Update(character);
+            return Ok(updatedCharacter);
+        }
 
-    //// DELETE api/<CharacterController>/5
-    //[HttpDelete("{id}")]
-    //public void Delete(int id)
-    //{
-    //}
-  }
+        //// DELETE api/<CharacterController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
+    }
 }

@@ -59,7 +59,8 @@ namespace CharactersApi
       services.AddDbContext<P3_NotFightClub_CharactersContext>();
 
 
-      services.AddScoped<IRepository<ViewCharacter, int>, CharacterRepository>();
+      //services.AddScoped<IRepository<ViewCharacter, int>, CharacterRepository>();
+      services.AddScoped<ICharacterRepository, CharacterRepository>();
       services.AddScoped<IMapper<Character, ViewCharacter>, CharacterMapper>();
       services.AddScoped<IMapper<Trait, ViewTrait>, TraitMapper>();
       services.AddScoped<IRepository<ViewTrait, int>, TraitRepository>();
