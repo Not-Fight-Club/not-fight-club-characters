@@ -28,20 +28,22 @@ namespace CharactersApi_Logic.Repositiories
       //convert to Trait with Mapper class
       Trait trait = _mapper.ViewModelToModel(viewTrait);
       //add to the db
-      _dbContext.Database.ExecuteSqlInterpolated($"Insert into Trait(Description) values({trait.Description})");
+      //_dbContext.Database.ExecuteSqlInterpolated($"Insert into Trait(Description) values({trait.Description})");
+      _dbContext.Traits.Add(trait);
       //save changes
-      _dbContext.SaveChanges();
+      await _dbContext.SaveChangesAsync();
       //read trait back from the db
-      Trait newTrait = await _dbContext.Traits.FromSqlInterpolated($"select * from Trait where Description = {trait.Description}").FirstOrDefaultAsync();
+      //Trait newTrait = await _dbContext.Traits.FromSqlInterpolated($"select * from Trait where Description = {trait.Description}").FirstOrDefaultAsync();
 
-      return _mapper.ModelToViewModel(newTrait);
+      return _mapper.ModelToViewModel(trait);
     }
 
 
     public async Task<ViewTrait> Read(int id)
     {
 
-      Trait trait = await _dbContext.Traits.FromSqlInterpolated($"select * from Trait where TraitId = {id}").FirstOrDefaultAsync();
+      //Trait trait = await _dbContext.Traits.FromSqlInterpolated($"select * from Trait where TraitId = {id}").FirstOrDefaultAsync();
+      Trait trait = await _dbContext.Traits.Where(t => t.TraitId == id).FirstOrDefaultAsync();
 
       return _mapper.ModelToViewModel(trait);
     }

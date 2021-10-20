@@ -26,6 +26,9 @@ namespace CharactersApi_Models.ViewModels
     public int TraitId { get; set; }
     public int WeaponId { get; set; }
 
+    public string Trait { get; set; }
+    public string Weapon { get; set; }
+
     //public virtual Trait Trait { get; set; }
     //public virtual UserInfo User { get; set; }
     //public virtual Weapon Weapon { get; set; }

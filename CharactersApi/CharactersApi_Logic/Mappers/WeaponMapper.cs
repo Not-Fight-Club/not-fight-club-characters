@@ -13,6 +13,7 @@ namespace CharactersApi_Logic.Mappers
   {
     public ViewWeapon ModelToViewModel(Weapon obj)
     {
+      if (obj == null) return null;
       ViewWeapon weapon = new ViewWeapon();
       weapon.Description = obj.Description;
       weapon.WeaponId = obj.WeaponId;
@@ -27,6 +28,7 @@ namespace CharactersApi_Logic.Mappers
 
     public Weapon ViewModelToModel(ViewWeapon obj)
     {
+      if (obj == null) return null;
       Weapon weapon = new Weapon();
       weapon.Description = obj.Description;
       weapon.WeaponId = obj.WeaponId;

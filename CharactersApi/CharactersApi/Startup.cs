@@ -37,12 +37,14 @@ namespace CharactersApi
         options.AddPolicy(name: "NotFightClubLocal", builder =>
         {
           builder.WithOrigins(
-            "http://localhost:4200"
+            "http://localhost:4200",
+            "http://notfightclub.eastus.cloudapp.azure.com"
           )
           .AllowAnyHeader()
           .AllowAnyMethod();
         });
       });
+
      
       services.AddDbContext<P3_NotFightClub_CharactersContext>(options =>
       {
@@ -53,7 +55,27 @@ namespace CharactersApi
       });
 
 
-            services.AddScoped<IRepository<ViewCharacter, int>, CharacterRepository>();
+      services.AddScoped<IRepository<ViewCharacter, int>, CharacterRepository>();
+
+      //services.AddDbContext<ConfigurationContext>(options =>
+      //{
+      //    options.UseSqlServer(Configuration.GetConnectionString("local"));
+      //});
+      //services.AddDbContext<P2_NotFightClubContext>(options =>
+      //{
+      //    //if db options is already configured, done do anything..
+      //    // otherwise use the Connection string I have in secrets.json
+      //    if (!options.IsConfigured)
+      //    {
+      //        options.UseSqlServer(Configuration.GetConnectionString("local"));
+      //    }
+      //});
+      //services.AddDbContext<P3_NotFightClub_CharactersContext>();
+
+
+      //services.AddScoped<IRepository<ViewCharacter, int>, CharacterRepository>();
+      services.AddScoped<ICharacterRepository, CharacterRepository>();
+
       services.AddScoped<IMapper<Character, ViewCharacter>, CharacterMapper>();
       services.AddScoped<IMapper<Trait, ViewTrait>, TraitMapper>();
       services.AddScoped<IRepository<ViewTrait, int>, TraitRepository>();
