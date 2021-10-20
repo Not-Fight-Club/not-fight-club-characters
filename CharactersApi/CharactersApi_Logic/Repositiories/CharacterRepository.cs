@@ -38,14 +38,17 @@ namespace CharactersApi_Logic.Repositiories
     {
       //this will not work because userId is not an integer
       //Character selectedCharacter = await _dbContext.Characters.FromSqlInterpolated($"select * from Character where CharacterId = {id}").FirstOrDefaultAsync();
-      Character selectedCharacter = await _dbContext.Characters.Where(c => c.CharacterId == id).FirstOrDefaultAsync();
+      Character selectedCharacter = await (from c in _dbContext.Characters where c.CharacterId == id select c)
+        .Include(c => c.Trait)
+        .Include(c => c.Weapon)
+        .FirstOrDefaultAsync();
 
       return _mapper.ModelToViewModel(selectedCharacter);
     }
 
     public async Task<List<ViewCharacter>> Read()
     {
-      var characters = await _dbContext.Characters.ToListAsync();
+      var characters = await _dbContext.Characters.Include(c => c.Trait).Include(c => c.Weapon).ToListAsync();
       return characters.ConvertAll(_mapper.ModelToViewModel);
     }
 
