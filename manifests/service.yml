@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
     annotations:
-        service.beta.kubernetes.io/characterapi-resource-group: p3_fight_club
+        service.beta.kubernetes.io/azure-load-balancer-resource-group: p3_fight_club
     name: characterapi
 spec:
     loadBalancerIP: 52.179.102.199
