@@ -30,7 +30,7 @@ namespace CharactersApi.Controllers
     //}
 
     [HttpGet]
-    public async Task<ActionResult<List<Weapon>>> GetAllWeapons()
+    public async Task<ActionResult<List<ViewWeapon>>> GetAllWeapons()
     {
       var weapons = await _repo.Read();
       return Ok(weapons);
@@ -38,7 +38,7 @@ namespace CharactersApi.Controllers
 
     //GET api/<WeaponController>/5
     [HttpGet("/Weapon/{id}")]
-    public async Task<ActionResult<Weapon>> Get(int id)
+    public async Task<ActionResult<ViewWeapon>> Get(int id)
     {
       ViewWeapon weapon = await _repo.Read(id);
 

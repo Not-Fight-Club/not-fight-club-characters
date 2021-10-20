@@ -17,6 +17,7 @@ namespace CharactersApi_Logic.Mappers
 
     public ViewTrait ModelToViewModel(Trait trait)
     {
+      if (trait == null) return null;
       ViewTrait viewTrait = new ViewTrait();
       viewTrait.TraitId = trait.TraitId;
       viewTrait.Description = trait.Description;
