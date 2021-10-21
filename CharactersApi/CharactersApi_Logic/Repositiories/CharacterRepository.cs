@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CharactersApi_Logic.Repositiories
 {
-  public class CharacterRepository : IRepository<ViewCharacter, int>
+  public class CharacterRepository : ICharacterRepository
   {
     private readonly P3_NotFightClub_CharactersContext _dbContext;
     private readonly IMapper<Character, ViewCharacter> _mapper;
@@ -25,9 +25,9 @@ namespace CharactersApi_Logic.Repositiories
       Character character = _mapper.ViewModelToModel(viewCharacter);
       //add to the db
       //_dbContext.Database.ExecuteSqlInterpolated($"Insert into Character(name, baseform, traitId, weaponId, userId) values({character.Name},{character.Baseform},{character.TraitId},{character.WeaponId}, {character.UserId})");
-      _dbContext.Add(character);
+      _dbContext.Characters.Add(character);
       //save changes
-      _dbContext.SaveChanges();
+      await _dbContext.SaveChangesAsync();
       //read user back from the db
       Character createdCharacter = await _dbContext.Characters.FromSqlInterpolated($"select * from Character where UserId = {character.UserId} and name = {character.Name} and baseform = {character.Baseform}").FirstOrDefaultAsync();
 
@@ -52,9 +52,28 @@ namespace CharactersApi_Logic.Repositiories
       return characters.ConvertAll(_mapper.ModelToViewModel);
     }
 
-    public Task<ViewCharacter> Update(ViewCharacter obj)
+    public async Task<List<ViewCharacter>> ReadAll(Guid userId)
     {
-      throw new NotImplementedException();
+        List<Character> returnedCharacters = await (from c in _dbContext.Characters where c.UserId == userId select c)
+          .Include(c => c.Trait)
+          .Include(c => c.Weapon)
+          .ToListAsync();
+        return returnedCharacters.ConvertAll(_mapper.ModelToViewModel);
+    }
+
+    public async Task<ViewCharacter> Update(ViewCharacter obj)
+    {
+            var returned = await _dbContext.Characters.SingleOrDefaultAsync(c => c.CharacterId == obj.CharacterId);
+            returned.Baseform = obj.Baseform;
+            returned.Level = obj.Level;
+            returned.Losses = obj.Losses;
+            returned.Name = obj.Name;
+            returned.Ties = obj.Ties;
+            returned.TraitId = obj.TraitId;
+            returned.WeaponId = obj.WeaponId;
+
+            await _dbContext.SaveChangesAsync();
+            return _mapper.ModelToViewModel(returned);
     }
   }
 }

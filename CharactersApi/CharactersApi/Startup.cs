@@ -37,7 +37,8 @@ namespace CharactersApi
         options.AddPolicy(name: "NotFightClubLocal", builder =>
         {
           builder.WithOrigins(
-            "http://localhost:4200"
+            "http://localhost:4200",
+            "http://notfightclub.eastus.cloudapp.azure.com"
           )
           .AllowAnyHeader()
           .AllowAnyMethod();
@@ -59,7 +60,8 @@ namespace CharactersApi
       services.AddDbContext<P3_NotFightClub_CharactersContext>();
 
 
-      services.AddScoped<IRepository<ViewCharacter, int>, CharacterRepository>();
+      //services.AddScoped<IRepository<ViewCharacter, int>, CharacterRepository>();
+      services.AddScoped<ICharacterRepository, CharacterRepository>();
       services.AddScoped<IMapper<Character, ViewCharacter>, CharacterMapper>();
       services.AddScoped<IMapper<Trait, ViewTrait>, TraitMapper>();
       services.AddScoped<IRepository<ViewTrait, int>, TraitRepository>();

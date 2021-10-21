@@ -32,7 +32,8 @@ namespace CharactersApi_Logic.Repositiories
 
     public async Task<ViewWeapon> Read(int obj)
     {
-      Weapon weapon = await _dbContext.Weapons.FromSqlInterpolated($"select * from Weapon where WeaponId = {obj}").FirstOrDefaultAsync();
+      //Weapon weapon = await _dbContext.Weapons.FromSqlInterpolated($"select * from Weapon where WeaponId = {obj}").FirstOrDefaultAsync();
+      Weapon weapon = await _dbContext.Weapons.Where(w => w.WeaponId == obj).FirstOrDefaultAsync();
 
       return _mapper.ModelToViewModel(weapon);
     }
