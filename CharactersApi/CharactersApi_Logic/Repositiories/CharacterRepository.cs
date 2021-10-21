@@ -54,7 +54,10 @@ namespace CharactersApi_Logic.Repositiories
 
     public async Task<List<ViewCharacter>> ReadAll(Guid userId)
     {
-        List<Character> returnedCharacters = await _dbContext.Characters.FromSqlInterpolated($"select * from Character where userId = {userId}").ToListAsync();
+        List<Character> returnedCharacters = await (from c in _dbContext.Characters where c.UserId == userId select c)
+          .Include(c => c.Trait)
+          .Include(c => c.Weapon)
+          .ToListAsync();
         return returnedCharacters.ConvertAll(_mapper.ModelToViewModel);
     }
 
